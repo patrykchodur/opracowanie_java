@@ -141,6 +141,7 @@ class E implements A {
 Błąd kompilacji, ponieważ wszystkie metody w interfejsie są domyślnie
 `public`, a w `E` metoda `f()` jest prywatna (bo w klasie domyślnie
 jest `private`)
+Edit: domyślnie jest `package-private`
 
 ### 6 ###
 
