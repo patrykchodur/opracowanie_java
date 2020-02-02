@@ -90,7 +90,7 @@ class E extends D {
 ```
 
 Wypisze się `ABC30.5` ponieważ są dostępne 3 przeładowania `f()`,
-a 1 jest `int` i 1.0 to `double`, więc kompilator poprawie sobie znajdzie
+a 1 jest `int` i 1.0 to `double`, więc kompilator poprawnie sobie znajdzie
 odpowiednie funkcje.
 
 ### 4 ###
@@ -116,8 +116,8 @@ class E implements A, B {
 }
 ```
 
-Błąd kompilacji, ponieważ w `run()` próbujemy wołać funkcję `f()`
-przez typ `B`, który nie posiada takiej metody.
+Błąd kompilacji, ponieważ w `run()` próbujemy wołać metodę `f()`
+przez typ `B`, który jej nie posiada.
 
 ### 5 ###
 
@@ -141,6 +141,7 @@ class E implements A {
 Błąd kompilacji, ponieważ wszystkie metody w interfejsie są domyślnie
 `public`, a w `E` metoda `f()` jest prywatna (bo w klasie domyślnie
 jest `private`)
+
 Edit: domyślnie jest `package-private`
 
 ### 6 ###
@@ -165,8 +166,8 @@ class E implements B {
 }
 ```
 
-Wypisze się `Def`, nie ma żadnego powodu, aby `B` nie mogło nadpisać
-metody z `A`
+Wypisze się `Def`. Nie ma żadnego powodu, aby `B` nie mogło nadpisać
+metody z `A`.
 
 ### 7 ###
 
@@ -189,7 +190,7 @@ class E {
 Wynik: `x=4`. `i->i*i` to lambda, która dla `i` zwraca `i*i`.
 Wyrażenie labmda w Javie może implementować interfejs pod warunkiem,
 że interfejs ma jedną metodę bez definicji. Kompilator jest sobie
-w stanie powiącać, że `i -> i*i` musi dziedziczyć po `A`, które spełnia
+w stanie powiązać, że `i -> i*i` musi dziedziczyć po `A`, które spełnia
 te wymagania.
 [Źródło](http://tutorials.jenkov.com/java-functional-programming/functional-interfaces.html#functional-interfaces-can-be-implemented-by-a-lambda-expression)
 
@@ -236,8 +237,8 @@ to **dlaczego**?
 	System.out.println(s1 + " " + s2 + " " + (n+1));
 ```
 
-Błąd kompilacji, poniewać nie można przypisać `int` do `String`
-(trzecia linia)
+Błąd kompilacji, ponieważ nie można przypisać `int` do `String`
+(trzecia linia).
 
 ### 2 ###
 
@@ -250,7 +251,7 @@ Błąd kompilacji, poniewać nie można przypisać `int` do `String`
 		System.out.print("2");
 ```
 
-Błąd kompilacji, w Javie nie ma przeładowywania operatorów,
+Błąd kompilacji. W Javie nie ma przeładowywania operatorów,
 więc `s1 == s2` porównuje, czy są to te same instancje (a są to
 dwa kompletnie różne typy, więc nawet nie ma jak sprawdzić).
 `s1.equals(s2)` też zwaca `false` jbc.
@@ -299,9 +300,9 @@ czegokolwiek.
 Skompiluje się, ale wyrzuci wyjątek, bo:
 
 1. `to` ma w drugim wymiarze 0 (przy tworzeniu), więc indeks 0
-jest poza zakresem,
-2. drugi wymiar `ti` nie jest podany przy tworzeniu,
-więc `ti[0]` to `null` (a my robimy tu `(ti[0])[0]`
+jest poza zakresem.
+2. Drugi wymiar `ti` nie jest podany przy tworzeniu,
+więc `ti[0]` to `null` (a my robimy tu `(ti[0])[0]`.
 
 ### 6 ###
 
@@ -317,7 +318,7 @@ więc `ti[0]` to `null` (a my robimy tu `(ti[0])[0]`
 
 Wyświetli się `6`. Najpierw dodajemy 4 i 6, potem ustawiamy na drugim
 miejscu 6 (co nic nie zmienia), a potem usuwamy pierwszy element
-(przekazaliśmy indeks typu `int`, więc zostaje nam 6
+(przekazaliśmy indeks typu `int`), więc zostaje nam 6.
 
 ### 7 ###
 
@@ -333,7 +334,7 @@ miejscu 6 (co nic nie zmienia), a potem usuwamy pierwszy element
 
 Wyświetli się `46`. Metoda `remove()` przyjmuje albo indeks, albo
 obiekt (referencję na niego). Tutaj przekazujemy `Integer`, który jest
-obiektem, więc `remove()` szuka, czy ten konkretny obiekt (stworzony
+klasą, więc `remove()` szuka, czy ten konkretny obiekt (stworzony
 wewnątrz nawiasu `remove()`) znajduje się w liście, co jest niemożliwe,
 bo nie miał nawet szansy być nigdzie zachowany (nie mówiąc o tym,
 że w liście nie ma obieku `Integer` 0). 4, 5 i 6 są konwertowane z
@@ -349,7 +350,7 @@ bo nie miał nawet szansy być nigdzie zachowany (nie mówiąc o tym,
 Wyświetli się `2`. Pomimo tego, że `a.a` ma wartość `null`, `k` jest
 zmienną statyczną, która nie jest w żaden sposób przechowywana w obiekcie
 `a`, więc nawet nie jest on ruszany. Standardowo do zmiennych statycznych
-odwołuje się przez nazwę klasy, a nie obiekt, ale Java pozwala tak też
+odwołuje się przez nazwę klasy, a nie instancję, ale Java pozwala tak też
 to robić.
 
 ### 9 ###
@@ -381,7 +382,7 @@ Wyświetli się `3 0`. `k` jest ustawiane w konstruktorze `A`
 Wyświetli się `4`, bo najpierw zostanie stworzony obiekt klasy `A`
 i w konstruktorze ustawione będzie `k = 2` (ten bloczek luźny się odpala
 w trakcie działania konstruktora, po *stworzeniu* `this`/`super`
-a przed innymi instrukcjami w konstruktorze.
+a przed innymi instrukcjami w konstruktorze).
 
 ### 12 ###
 
@@ -394,7 +395,7 @@ a przed innymi instrukcjami w konstruktorze.
 
 Błąd kompilacji, w Javie nie ma niejawnej konwersji z `int` do `boolean`
 (w ogóle mało jest niejawnych konwersji, trzeba by dać
-`if (A.k != 0)` żeby się zachowywało tak jak domyślnie w ***C++***
+`if (A.k != 0)` żeby się zachowywało tak jak domyślnie w ***C++***).
 
 ### 13 ###
 
@@ -403,7 +404,7 @@ Błąd kompilacji, w Javie nie ma niejawnej konwersji z `int` do `boolean`
 ```
 
 Wyświetli się `0`, `f()` zwraca n, które nie jest nigdzie ustawiane,
-więc ma domyślną wartość 0
+więc ma domyślną wartość 0.
 
 ### 14 ###
 
@@ -423,7 +424,7 @@ np w ten sposób:
 ```Java
 	public static void main(String[] args) throws Exception {
 ```
-ani nie ma bloku `catch` naokoło miejsc, które rzucają wyjątki.
+ani nie ma bloku `try`/`catch` naokoło miejsc, które rzucają wyjątki.
 
 ### 15 ###
 
@@ -445,7 +446,7 @@ ani nie ma bloku `catch` naokoło miejsc, które rzucają wyjątki.
 ```
 
 Output to `BCD`. `a` i `b` wskazują na tę samą instancję, więc rzucony
-zostanie wyjątek `E1`, który dziedziczy po `Exception`, więc wejdziemy
+zostanie wyjątek `E1`, Dziedziczy on po `Exception`, więc wejdziemy
 do bloku `catch`. Blok `finally` wywoływany jest zawsze po `try` `catch`
 niezależnie, czy wyjątek miał miejsce, czy nie, czy został złapany, czy
 puszczony wyżej. Jako, że złapaliśmy wyjątek kontynuowane jest wykonywanie
@@ -464,7 +465,7 @@ programu, więc wyświetla się `D`.
 ```
 
 Błąd kompilacji - `A` nie dziedziczy po klasie `Throwable`, więc język
-nie pozwala, aby zostało wyrzucone jako wyjątek.
+nie pozwala, aby zostało rzucone jako wyjątek.
 
 ### 17 ###
 
@@ -478,7 +479,7 @@ nie pozwala, aby zostało wyrzucone jako wyjątek.
 
 Wyświetli się `A`. `iterator()` zwraca iterator wskazujący na pierwszy
 element listy, a `next()` zwraca obecny element i inkrementuje iterator.
-Coś w stylu `*iter++` z ***C++***
+Coś w stylu `*iter++` z ***C++***.
 
 ### 18 ###
 
@@ -490,7 +491,7 @@ Coś w stylu `*iter++` z ***C++***
 	System.out.println(x);
 ```
 
-Wyświetli się `0`, bo obiekt klasy `A` przesłany do fukncji `f()`
+Wyświetli się `0`, bo obiekt klasy `A`, przesłany do fukncji `f()`
 wciąż nie zmieniał w żaden sposób `n`, więc jest domyślne 0.
 
 ### 19 ###
@@ -503,7 +504,7 @@ wciąż nie zmieniał w żaden sposób `n`, więc jest domyślne 0.
 ```
 
 Błąd kompilacji - wszystkie kontenery w Javie wymagają obiektów. `int`,
-`byte`, `char` nie są obiektami. Trzeba by było dać `Integer`
+`byte`, `char` nie są obiektami. Trzeba by było dać `Integer`.
 
 ### 20 ###
 
@@ -632,7 +633,7 @@ public class E {
 Jeśli jeden wyjątek dziedziczy po drugim, to dziedziczący musi się znaleść
 wcześniej na liście łapanych wyjątków, ponieważ np `G` może być złapane
 przez `catch (F e)` lub `catch (Exception e)`, po którym dziedziczy przez
-`F`
+`F`.
 
 ### 3 ###
 
