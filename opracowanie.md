@@ -370,3 +370,184 @@ Błąd kompilacji - klasa `A` nie ma statycznej zmiennej `n`.
 Wyświetli się `3 0`. `k` jest ustawiane w konstruktorze `A`
 (możemy się odwoływać do zmiennych statycznych przez obiekt)
 , a `n` dostaje domyślną wartość, czyli 0.
+
+### 11 ###
+
+```
+	System.out.println(new A().k + A.k);
+```
+
+Wyświetli się `4`, bo najpierw zostanie stworzony obiekt klasy `A`
+i w konstruktorze ustawione będzie `k = 2` (ten bloczek luźny się odpala
+w trakcie działania konstruktora, po *stworzeniu* `this`/`super`
+a przed innymi instrukcjami w konstruktorze.
+
+### 12 ###
+
+```
+	if (A.k)
+		System.out.println("TAK");
+	else
+		System.out.println("NIE");
+```
+
+Błąd kompilacji, w Javie nie ma niejawnej konwersji z `int` do `boolean`
+(w ogóle mało jest niejawnych konwersji, trzeba by dać
+`if (A.k != 0)` żeby się zachowywało tak jak domyślnie w ***C++***
+
+### 13 ###
+
+```
+	System.out.println( new A(3).f(new A(4)));
+```
+
+Wyświetli się `0`, `f()` zwraca n, które nie jest nigdzie ustawiane,
+więc ma domyślną wartość 0
+
+### 14 ###
+
+```
+	A a = new A();
+	A b = new A(0);
+
+	if (a != b)
+		throw new E1();
+	if (!a.equals(b))
+		throw new E2();
+	System.out.println("KONIEC");
+```
+
+Błąd kompilacji, `main()` nie jest zadeklarowany jako rzucający wyjątek,
+np w ten sposób:
+```
+	public static void main(String[] args) throws Exception {
+```
+ani nie ma bloku `catch` naokoło miejsc, które rzucają wyjątki.
+
+### 15 ###
+
+```
+	A a = new A();
+	A b = a;
+	try {
+		if (a == b)
+			throw new E1();
+		System.out.print("A");
+	}
+	catch (Exception e) {
+		System.out.print("B");
+	}
+	finally {
+		System.out.print("C");
+	}
+	System.out.println("D");
+```
+
+Output to `BCD`. `a` i `b` wskazują na tę samą instancję, więc rzucony
+zostanie wyjątek `E1`, który dziedziczy po `Exception`, więc wejdziemy
+do bloku `catch`. Blok `finally` wywoływany jest zawsze po `try` `catch`
+niezależnie, czy wyjątek miał miejsce, czy nie, czy został złapany, czy
+puszczony wyżej. Jako, że złapaliśmy wyjątek kontynuowane jest wykonywanie
+programu, więc wyświetla się `D`.
+
+### 16 ###
+
+```
+	A a = new A();
+	E2 x = new E2();
+	if (a.k == 1)
+		throw x;
+	if (a.k == 2)
+		throw a;
+	System.out.println("KONIEC");
+```
+
+Błąd kompilacji - `A` nie dziedziczy po klasie `Throwable`, więc język
+nie pozwala, aby zostało wyrzucone jako wyjątek.
+
+### 17 ###
+
+```
+	var t = new ArrayList<Object>();
+	t.add (new A());
+	t.add(new E1());
+	System.out.println(
+			t.iterator().next().getClass().getName());
+```
+
+Wyświetli się `A`. `iterator()` zwraca iterator wskazujący na pierwszy
+element listy, a `next()` zwraca obecny element i inkrementuje iterator.
+Coś w stylu `*iter++` z ***C++***
+
+### 18 ###
+
+```
+	A a = new A(5);
+	var x = a.f(new A(6) {
+		public int f(A a) { return 7; }
+	} );
+	System.out.println(x);
+```
+
+Wyświetli się `0`, bo obiekt klasy `A` przesłany do fukncji `f()`
+wciąż nie zmieniał w żaden sposób `n`, więc jest domyślne 0.
+
+### 19 ###
+
+```
+	Map<int, String> m = new TreeMap<>();
+	m.put(1, "Nowak");
+	m.put(2, "Kowalski");
+	System.out.println(m.get(1));
+```
+
+Błąd kompilacji - wszystkie kontenery w Javie wymagają obiektów. `int`,
+`byte`, `char` nie są obiektami. Trzeba by było dać `Integer`
+
+### 20 ###
+
+```
+	Map<String, String> m = new TreeMap<>();
+	m.put("Nowak", 1 + "");
+	m.put("Kowalski", "2");
+	System.out.println(m.get(1));
+```
+
+Błąd w czasie wykonywania programu. Metoda `get()` przyjmuje referencję
+do typu `Object`, a nie typ podany jako klucz, więc 1 jest konwertowane
+do `Integer`, które jest przekazywane do funkcji `get()`, która dopiero
+w środku sprawdza poprawność typów. Trochę więcej na ten temat jest
+w następnym zadaniu.
+
+### 21 ###
+
+```
+	class B<T extends E3> {
+		T x = new T();
+		void f() {
+			throw x;
+		}
+	}
+
+	new B<E3>().f();
+```
+
+Błąd kompilacji - wyrażenie `new T()` jest niedozwolone w Javie.
+Szablony w Javie działają inaczej niż w ***C++***, nie jest tworzona
+wersja funkcji/klasy z określonymi parametram, tylko tak naprawdę
+używany jest tam typ `Object`, bądź jeśli podamy więcej informacji inny
+(tutaj `E3`). Kompilator nie wie więc jakiego konstruktora ma użyć.
+
+### 22 ###
+
+```
+	A a = new A();
+	a = a.a;
+	System.out.println(a);
+```
+
+Wynik: `null`. Najpierw tworzony jest obiekt `A` i referencja na niego
+zapisana jest do `a`. Następnie do `a` przypisujemy element `a` klasy `A`
+(`a.a`), które (zawsze) wynosi `null`. `a` wskazuje więc na `null`,
+co zostaje wyświetlone w `println()` (normalnie byłby adres, ale jeśli
+przekażemy `null` to wyświetli `String` `"null"`.
