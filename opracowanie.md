@@ -89,7 +89,7 @@ class E extends D {
 }
 ```
 
-Wypiszę się `ABC3.05` ponieważ są dostępne 3 przeładowania `f()`,
+Wypisze się `ABC30.5` ponieważ są dostępne 3 przeładowania `f()`,
 a 1 jest `int` i 1.0 to `double`, więc kompilator poprawie sobie znajdzie
 odpowiednie funkcje.
 
