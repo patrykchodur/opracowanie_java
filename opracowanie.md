@@ -714,5 +714,112 @@ zorientować, że dany literał był używany wielokrotnie i przypisze stringom
 ten sam adres. Jeśli chcemy stringa zmodyfikować i tak tworzony jest nowy
 obiekt).
 
+### 5 ###
 
+```Java
+public /* ... */
+	E x;
+	V y;
+	public A(E a, V b) {
 
+		// .....
+
+	}
+	public static void main(String[] args) {
+		A o = new A("a", "b");
+		System.out.println(o.x + "" + o.y);
+	}
+}
+```
+
+Ma dawać `ab`.
+
+Odpowiedź:
+
+```Java
+public class A<E extends String, V extends String> {
+	E x;
+	V y;
+	public A(E a, V b) {
+
+		x = a;
+		y = b;
+
+	}
+	public static void main(String[] args) {
+		A o = new A("a", "b");
+		System.out.println(o.x + "" + o.y);
+	}
+}
+```
+
+W konstruktorze podane są dwa literały, więc potrzeba czegoś, co da się
+niejawnie przekonwertować do `String`a.
+`E` i `V` przedłużają klasę `String`, żeby były traktowane przez
+kompilator jak `String`, lub coś więcej niż `String`.
+
+### 6 ###
+
+```Java
+public class B {
+
+	/* ... */ = new /* ... */ (0);
+
+	public static void main(String[] args) {
+		n = /* ... */
+		System.out.println("n-" + n.toString());
+	}
+}
+```
+
+Ma dawać `n=1`.
+
+Odpowiedź:
+
+```Java
+public class B {
+
+	static Integer n = new Integer(0);
+
+	public static void main(String[] args) {
+		n = 1;
+		System.out.println("n-" + n.toString());
+	}
+}
+```
+
+Trzeba pamiętać o `static`, bo n jest zmieniane w funkcji `main()`.
+
+### 7 ###
+
+```Java
+
+// .....
+
+class /* ... */
+	public E (int a, int b) {
+		super(a, b);
+	}
+}
+```
+
+Odpowiedź:
+
+```Java
+class B {
+	public B(int a, int b) { }
+}
+
+class E extends B {
+	public E (int a, int b) {
+		super(a, b);
+	}
+}
+```
+
+`super()` wywołuje konstruktor klasy nadrzędnej, w tym przypadku `B`.
+
+### 8 ###
+
+```Java
+```
