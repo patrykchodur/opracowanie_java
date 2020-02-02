@@ -551,3 +551,167 @@ zapisana jest do `a`. Następnie do `a` przypisujemy element `a` klasy `A`
 (`a.a`), które (zawsze) wynosi `null`. `a` wskazuje więc na `null`,
 co zostaje wyświetlone w `println()` (normalnie byłby adres, ale jeśli
 przekażemy `null` to wyświetli `String` `"null"`.
+
+## III ##
+
+Uzupełnić kod tak, aby plik z kodem się kompilował
+
+### 1 ###
+
+```Java
+
+// ...........
+
+class D {
+	A a = new C();
+	B b = new C();
+}
+```
+
+Odpowiedź:
+
+```Java
+interface A { }
+interface B { }
+class C implements A, B { }
+
+
+
+class D {
+	A a = new C();
+	B b = new C();
+}
+```
+
+Można też dać klasy dziedziczące jedna po drugiej.
+
+### 2 ###
+
+```Java
+
+// ..........
+
+
+public class E {
+	void f() {
+		try {
+			F x = new G();
+			throw x;
+		}
+		catch (RuntimeException e) { }
+		catch (/* ... */ e) { }
+		catch (F e) { }
+		catch (/* ... */ e) { }
+	}
+}
+```
+
+Odpowiedź:
+
+```Java
+class F extends Exception { }
+
+class G extends F { }
+
+
+public class E {
+	void f() {
+		try {
+			F x = new G();
+			throw x;
+		}
+		catch (RuntimeException e) { }
+		catch (G e) { }
+		catch (F e) { }
+		catch (Exception e) { }
+	}
+}
+```
+
+Jeśli jeden wyjątek dziedziczy po drugim, to dziedziczący musi się znaleść
+wcześniej na liście łapanych wyjątków, ponieważ np `G` może być złapane
+przez `catch (F e)` lub `catch (Exception e)`, po którym dziedziczy przez
+`F`
+
+### 3 ###
+
+```Java
+
+// ........
+
+		String a;
+		String b;
+
+		// .......
+
+		System.out.println(a == b);
+	}
+}
+```
+
+Ma dawać `true`.
+
+Odpowiedź:
+
+```Java
+public class E {
+	
+	public static void main(String[] args) {
+		String a;
+		String b;
+
+		a = b = new String();
+
+		System.out.println(a == b);
+	}
+}
+```
+
+Porówanie `a == b` sprawdza, czy `String` `a` wskazuje na ten sam obiekt
+co `b`, więc trzeba do nich przypisać to samo.
+
+
+### 4 ###
+
+```Java
+
+// ........
+
+		String a;
+		String b;
+
+		// .......
+
+		System.out.println(a == b);
+	}
+}
+```
+
+Ma dawać `false`.
+
+Odpowiedź:
+
+```Java
+public class E {
+	
+	public static void main(String[] args) {
+		String a;
+		String b;
+
+		a = new String();
+		b = new String();
+
+		System.out.println(a == b);
+	}
+}
+```
+
+`a` i `b` wskazują na inne obiekty. Co ciekawe, dla `a = ""; b = "";`
+wychodzi `true`, co jest raczej kwestią optymalizacji (literały znajdują
+się w innym miejscu pamięci niż zmienne, kompilator jest w stanie się
+zorientować, że dany literał był używany wielokrotnie i przypisze stringom
+ten sam adres. Jeśli chcemy stringa zmodyfikować i tak tworzony jest nowy
+obiekt).
+
+
+
