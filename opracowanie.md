@@ -4,7 +4,7 @@
 
 Dany jest program w języku Java zawarty w pliku o następującej treści
 
-```
+```Java
 //******//
 
 public class Main {
@@ -22,7 +22,7 @@ to **dlaczego**?
 
 ### 1 ###
 
-```
+```Java
 enum C { TAK, NIE }
 
 class E {
@@ -33,7 +33,7 @@ class E {
 Wpisze się `->TAKNIE`, ponieważ enum ma domyślnie metodę `toString()`,
 która zwraca nazwę wartości (można ją nadpisać, np)
 
-```
+```Java
 enum C { 
 	TAK,
 	NIE;
@@ -47,7 +47,7 @@ enum C {
 
 ### 2 ###
 
-```
+```Java
 class D {
 	String s = "ABC";
 	public D(String s) {
@@ -68,7 +68,7 @@ bezargumentowy konstruktor D, który nie istnieje.
 
 ### 3 ###
 
-```
+```Java
 class D {
 	String f() {
 		return "ABC";
@@ -95,7 +95,7 @@ odpowiednie funkcje.
 
 ### 4 ###
 
-```
+```Java
 interface A {
 	String f();
 }
@@ -121,7 +121,7 @@ przez typ `B`, który nie posiada takiej metody.
 
 ### 5 ###
 
-```
+```Java
 interface A {
 	default String f() {
 		return "Abc";
@@ -144,7 +144,7 @@ jest `private`)
 
 ### 6 ###
 
-```
+```Java
 interface A {
 	default String f() {
 		return "Abc";
@@ -169,7 +169,7 @@ metody z `A`
 
 ### 7 ###
 
-```
+```Java
 interface A {
 	int f(int i);
 }
@@ -196,7 +196,7 @@ te wymagania.
 
 Dany jest następujący program
 
-```
+```Java
 import java.util.*;
 class A {
 	public static int k = 1;
@@ -228,7 +228,7 @@ to **dlaczego**?
 
 ### 1 ###
 
-```
+```Java
 	int n = 4;
 	String s1 = "X";
 	String s2 = n + 1;
@@ -240,7 +240,7 @@ Błąd kompilacji, poniewać nie można przypisać `int` do `String`
 
 ### 2 ###
 
-```
+```Java
 	String s1 = "ABC";
 	StringBuilder s2 = new StringBuilder("ABC");
 	if (s1 == s2)
@@ -256,7 +256,7 @@ dwa kompletnie różne typy, więc nawet nie ma jak sprawdzić).
 
 ### 3 ###
 
-```
+```Java
 	String s = "abcdef";
 	System.out.println(s.length() + s.charAt(3)
 			+ s.charAt(6));
@@ -269,7 +269,7 @@ kompilacji.
 
 ### 4 ###
 
-```
+```Java
 	String s = "";
 	s += 1;
 	s += 'X';
@@ -289,7 +289,7 @@ czegokolwiek.
 
 ### 5 ###
 
-```
+```Java
 	int[][] ti = new int[5][];
 	Object[][][] to = new Object[3][0][5];
 	to[0][0][0] = ti[0][0];
@@ -304,7 +304,7 @@ więc `ti[0]` to `null` (a my robimy tu `(ti[0])[0]`
 
 ### 6 ###
 
-```
+```Java
 	ArrayList<Integer> v = new ArrayList<>();
 	v.add(4);
 	v.add(6);
@@ -320,7 +320,7 @@ miejscu 6 (co nic nie zmienia), a potem usuwamy pierwszy element
 
 ### 7 ###
 
-```
+```Java
 	ArrayList<Integer> v = new ArrayList<>();
 	v.add(4);
 	v.add(5);
@@ -340,7 +340,7 @@ bo nie miał nawet szansy być nigdzie zachowany (nie mówiąc o tym,
 
 ### 8 ###
 
-```
+```Java
 	A a = new A();
 	System.out.println(a.a.k);
 ```
@@ -353,7 +353,7 @@ to robić.
 
 ### 9 ###
 
-```
+```Java
 	A a = new A(3);
 	System.out.println(A.k + " " + A.n);
 ```
@@ -362,7 +362,7 @@ Błąd kompilacji - klasa `A` nie ma statycznej zmiennej `n`.
 
 ### 10 ###
 
-```
+```Java
 	A a = new A(3);
 	System.out.println(a.k + " " + a.n);
 ```
@@ -373,7 +373,7 @@ Wyświetli się `3 0`. `k` jest ustawiane w konstruktorze `A`
 
 ### 11 ###
 
-```
+```Java
 	System.out.println(new A().k + A.k);
 ```
 
@@ -384,7 +384,7 @@ a przed innymi instrukcjami w konstruktorze.
 
 ### 12 ###
 
-```
+```Java
 	if (A.k)
 		System.out.println("TAK");
 	else
@@ -397,7 +397,7 @@ Błąd kompilacji, w Javie nie ma niejawnej konwersji z `int` do `boolean`
 
 ### 13 ###
 
-```
+```Java
 	System.out.println( new A(3).f(new A(4)));
 ```
 
@@ -406,7 +406,7 @@ więc ma domyślną wartość 0
 
 ### 14 ###
 
-```
+```Java
 	A a = new A();
 	A b = new A(0);
 
@@ -419,14 +419,14 @@ więc ma domyślną wartość 0
 
 Błąd kompilacji, `main()` nie jest zadeklarowany jako rzucający wyjątek,
 np w ten sposób:
-```
+```Java
 	public static void main(String[] args) throws Exception {
 ```
 ani nie ma bloku `catch` naokoło miejsc, które rzucają wyjątki.
 
 ### 15 ###
 
-```
+```Java
 	A a = new A();
 	A b = a;
 	try {
@@ -452,7 +452,7 @@ programu, więc wyświetla się `D`.
 
 ### 16 ###
 
-```
+```Java
 	A a = new A();
 	E2 x = new E2();
 	if (a.k == 1)
@@ -467,7 +467,7 @@ nie pozwala, aby zostało wyrzucone jako wyjątek.
 
 ### 17 ###
 
-```
+```Java
 	var t = new ArrayList<Object>();
 	t.add (new A());
 	t.add(new E1());
@@ -481,7 +481,7 @@ Coś w stylu `*iter++` z ***C++***
 
 ### 18 ###
 
-```
+```Java
 	A a = new A(5);
 	var x = a.f(new A(6) {
 		public int f(A a) { return 7; }
@@ -494,7 +494,7 @@ wciąż nie zmieniał w żaden sposób `n`, więc jest domyślne 0.
 
 ### 19 ###
 
-```
+```Java
 	Map<int, String> m = new TreeMap<>();
 	m.put(1, "Nowak");
 	m.put(2, "Kowalski");
@@ -506,7 +506,7 @@ Błąd kompilacji - wszystkie kontenery w Javie wymagają obiektów. `int`,
 
 ### 20 ###
 
-```
+```Java
 	Map<String, String> m = new TreeMap<>();
 	m.put("Nowak", 1 + "");
 	m.put("Kowalski", "2");
@@ -521,7 +521,7 @@ w następnym zadaniu.
 
 ### 21 ###
 
-```
+```Java
 	class B<T extends E3> {
 		T x = new T();
 		void f() {
@@ -540,7 +540,7 @@ używany jest tam typ `Object`, bądź jeśli podamy więcej informacji inny
 
 ### 22 ###
 
-```
+```Java
 	A a = new A();
 	a = a.a;
 	System.out.println(a);
