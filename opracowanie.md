@@ -803,6 +803,8 @@ class /* ... */
 }
 ```
 
+Ma się kompilować.
+
 Odpowiedź:
 
 ```Java
@@ -822,4 +824,73 @@ class E extends B {
 ### 8 ###
 
 ```Java
+public class A {
+	public static void main(String[] args) {
+		float /* ... */
+		float s = 0;
+		for (float x : t)
+			s +/* ... */
+
+		System.out.println("s=" + s);
+	}
+}
 ```
+
+Ma dać wynik `s=0.3`.
+
+Odpowiedź:
+
+```Java
+public class A {
+	public static void main(String[] args) {
+		float []t = new float[3];
+		float s = 0;
+		for (float x : t)
+			s += 0.1;
+
+		System.out.println("s=" + s);
+	}
+}
+```
+
+Pętla foreach jedzie po wszystkich elementach `t`, więc najprościej jest 
+dodawać 0.1 do `s` i sprawić, aby `t` miało 3 elementy.
+
+### 9 ###
+
+```Java
+/* ... */ Exception { }
+
+/* ... */ RuntimeException { }
+
+class G {
+	void /* ... */ {
+		throw new E();
+	}
+	void /* ... */ {
+		throw new F();
+	}
+}
+```
+
+Ma się kompilować.
+
+Odpowiedź:
+
+```Java
+class E extends Exception { }
+
+class F extends RuntimeException { }
+
+class G {
+	void e() throws Exception {
+		throw new E();
+	}
+	void f() throws RuntimeException {
+		throw new F();
+	}
+}
+```
+
+W tym zadaniu chodzi o to, żeby pamiętać, że funkcja musi deklarować
+jakie wyjątki rzuca, jeśli nie chce ich łapać.
