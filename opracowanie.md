@@ -754,7 +754,7 @@ public class A<E extends String, V extends String> {
 ```
 
 W konstruktorze podane są dwa literały, więc potrzeba czegoś, co da się
-niejawnie przekonwertować do `String`a.
+niejawnie przekonwertować do `String`.
 `E` i `V` przedłużają klasę `String`, żeby były traktowane przez
 kompilator jak `String`, lub coś więcej niż `String`.
 
@@ -886,11 +886,12 @@ class G {
 	void e() throws Exception {
 		throw new E();
 	}
-	void f() throws RuntimeException {
+	void f() {
 		throw new F();
 	}
 }
 ```
 
 W tym zadaniu chodzi o to, żeby pamiętać, że funkcja musi deklarować
-jakie wyjątki rzuca, jeśli nie chce ich łapać.
+jakie wyjątki rzuca, jeśli nie chce ich łapać. Jeśli wyjątek dziedziczy
+po RuntimeException nie trzeba go deklarować.
